@@ -6,28 +6,20 @@ import os
 import sys
 import argparse
 
-wl = sys.argv[2]
-
 url = sys.argv[1]
-urlsubstr = 'http://'
-
-if not url:
-  print('Please provide a url')
-elif not wl:
-  print('Please provide a wordlist')
-elif wl:
-  line = wl.readline()
-  print(line.strip())
-  if line == "":
-    return
+params = sys.argv[2]
+httpurl = url + '/' + params
 
 
+def requestfromfile():
+  r = requests.get(httpurl, allow_redirects=True)
 
+  data = r.status_code
+  if r.ok and r.status_code <= 300:
+    print(httpurl + " --> " + " " + str(r.status_code) + " " + r.reason)
+  elif r.status_code > 300 and r.status_code < 400:
+    print(httpurl + " --> " + r.reason + " " + " " + str(r.status_code) + " " + r.url)
+  elif r.status_code > 400:
+    print(httpurl + " --> " + str(r.status_code))
 
-if urlsubstr in url:
-  print(url + fileread)
-else:
-  httpurl = urlsubstr + url + fileread
-  print(httpurl)
-
-
+requestfromfile()
