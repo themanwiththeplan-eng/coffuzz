@@ -7,20 +7,19 @@ import sys
 import argparse
 
 url = sys.argv[1]
-params = sys.argv[2]
-httpurl = url + '/' + params
+params = open(sys.argv[2], "r")
 
-
-def requestfromfile():
-  r = requests.get(httpurl, allow_redirects=True)
-  reason = r.reason
-  data = r.status_code
-  if r.ok and r.status_code <= 300:
-    print(httpurl + " --> " + " " + str(data) + " " + reason)
-  elif r.status_code > 300 and r.status_code < 400:
-    print(httpurl + " --> " + reason + " " + " " + str(data) + " " + r.url)
-  elif r.status_code > 400:
-    print(httpurl + " --> " + str(r.status_code))
-  elif url == " " or params == " ":
-    print('You have not suppplied any input. Please supply arguments for url using http://, and supply a filepath to use as a parameter from a wordlist')
+for p in params:
+    stripped_line = p.strip()
+    httpurl = url + '/' + stripped_line
+    r = requests.get(httpurl, allow_redirects=True)
+    status = r.status_code
+    reason = r.reason
+    if status >= 200 and status <= 299:
+      print(r.url + ' --> ' + str(status))
+    elif status >= 300 and status <= 399:
+      print(r.url + ' --> ' + str(status))
+    elif status >= 400 and status <= 499:
+      print(r.url + ' --> ' + str(status))
+    
 requestfromfile()
