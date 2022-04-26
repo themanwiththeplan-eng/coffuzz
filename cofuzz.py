@@ -23,4 +23,13 @@ for p in params:
         print(r.history + " --> " + r.url + str(status) + " " + reason)
       elif status >= 400 and status <= 499:
         print(r.url + " --> " + str(status) + " " + reason)
-requestfromfile()
+    elif requesttype == "POST":
+      r = requests.post(httpurl, allow_redirects=True)
+      status = r.status_code
+      reason = r.reason
+      if status >= 200 and status <= 299:
+        print(r.url + " --> " + str(status) + " " + reason)
+      elif status >= 300 and status <= 399:
+        print(r.history + " --> " + r.url + str(status) + " " + reason)
+      elif status >= 400 and status <= 499:
+        print(r.url + " --> " + str(status) + " " + reason)
